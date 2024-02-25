@@ -1,0 +1,10 @@
+D:\Git Project\YT\Deep dive into source generator\AutoGetComponent\AutoGetComponent\bin\Debug\netstandard2.0\AutoGetComponent.deps.json
+D:\Git Project\YT\Deep dive into source generator\AutoGetComponent\AutoGetComponent\bin\Debug\netstandard2.0\AutoGetComponent.dll
+D:\Git Project\YT\Deep dive into source generator\AutoGetComponent\AutoGetComponent\bin\Debug\netstandard2.0\AutoGetComponent.pdb
+D:\Git Project\YT\Deep dive into source generator\AutoGetComponent\AutoGetComponent\obj\Debug\netstandard2.0\AutoGetComponent.csproj.AssemblyReference.cache
+D:\Git Project\YT\Deep dive into source generator\AutoGetComponent\AutoGetComponent\obj\Debug\netstandard2.0\AutoGetComponent.GeneratedMSBuildEditorConfig.editorconfig
+D:\Git Project\YT\Deep dive into source generator\AutoGetComponent\AutoGetComponent\obj\Debug\netstandard2.0\AutoGetComponent.AssemblyInfoInputs.cache
+D:\Git Project\YT\Deep dive into source generator\AutoGetComponent\AutoGetComponent\obj\Debug\netstandard2.0\AutoGetComponent.AssemblyInfo.cs
+D:\Git Project\YT\Deep dive into source generator\AutoGetComponent\AutoGetComponent\obj\Debug\netstandard2.0\AutoGetComponent.csproj.CoreCompileInputs.cache
+D:\Git Project\YT\Deep dive into source generator\AutoGetComponent\AutoGetComponent\obj\Debug\netstandard2.0\AutoGetComponent.dll
+D:\Git Project\YT\Deep dive into source generator\AutoGetComponent\AutoGetComponent\obj\Debug\netstandard2.0\AutoGetComponent.pdb
