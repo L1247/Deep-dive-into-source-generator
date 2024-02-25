@@ -1,0 +1,11 @@
+D:\Git Project\YT\Deep dive into source generator\AutoSingleton\AutoSingleton\bin\Release\netstandard2.0\AutoSingleton.deps.json
+D:\Git Project\YT\Deep dive into source generator\AutoSingleton\AutoSingleton\bin\Release\netstandard2.0\AutoSingleton.dll
+D:\Git Project\YT\Deep dive into source generator\AutoSingleton\AutoSingleton\bin\Release\netstandard2.0\AutoSingleton.pdb
+D:\Git Project\YT\Deep dive into source generator\AutoSingleton\AutoSingleton\obj\Release\netstandard2.0\AutoSingleton.csproj.AssemblyReference.cache
+D:\Git Project\YT\Deep dive into source generator\AutoSingleton\AutoSingleton\obj\Release\netstandard2.0\AutoSingleton.GeneratedMSBuildEditorConfig.editorconfig
+D:\Git Project\YT\Deep dive into source generator\AutoSingleton\AutoSingleton\obj\Release\netstandard2.0\AutoSingleton.AssemblyInfoInputs.cache
+D:\Git Project\YT\Deep dive into source generator\AutoSingleton\AutoSingleton\obj\Release\netstandard2.0\AutoSingleton.AssemblyInfo.cs
+D:\Git Project\YT\Deep dive into source generator\AutoSingleton\AutoSingleton\obj\Release\netstandard2.0\AutoSingleton.csproj.CoreCompileInputs.cache
+D:\Git Project\YT\Deep dive into source generator\AutoSingleton\AutoSingleton\obj\Release\netstandard2.0\AutoSingleton.sourcelink.json
+D:\Git Project\YT\Deep dive into source generator\AutoSingleton\AutoSingleton\obj\Release\netstandard2.0\AutoSingleton.dll
+D:\Git Project\YT\Deep dive into source generator\AutoSingleton\AutoSingleton\obj\Release\netstandard2.0\AutoSingleton.pdb

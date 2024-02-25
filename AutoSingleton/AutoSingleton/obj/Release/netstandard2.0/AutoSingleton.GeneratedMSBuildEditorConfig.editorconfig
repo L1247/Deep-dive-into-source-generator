@@ -1,0 +1,5 @@
+is_global = true
+build_property.RootNamespace = AutoSingleton
+build_property.ProjectDir = D:\Git Project\YT\Deep dive into source generator\AutoSingleton\AutoSingleton\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 

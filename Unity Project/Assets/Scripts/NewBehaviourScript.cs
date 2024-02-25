@@ -1,9 +1,7 @@
-using System;
-using System.Linq;
 using AutoProperty;
-using rStarUtility;
 using UnityEngine;
 
+[Singleton]
 public partial class NewBehaviourScript : MonoBehaviour
 {
     [AutoProp(AXS.PublicGetPrivateSet) , SerializeField]
@@ -39,7 +37,13 @@ public partial class NewBehaviourScript : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         // var children = this.GetComponentInChildren<BoxCollider2D>(Self.Exclude );
         // Debug.Log($"{children}");
+        // Hogehoge
         InitializeComponents();
         // Assert.IsNotNull(RB , $"RB is null in {gameObject}");
+    }
+
+    public void Test()
+    {
+        Debug.Log($"Test");
     }
 }
