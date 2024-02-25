@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
@@ -54,15 +52,17 @@ internal class GetComponentAttribute : Attribute
         {
             if (!(context.SyntaxContextReceiver is SyntaxReceiver receiver)) return;
 
-            INamedTypeSymbol attributeSymbol = context.Compilation.GetTypeByMetadataName("GetComponentAttribute");
+            var attributeSymbol = context.Compilation.GetTypeByMetadataName("GetComponentAttribute");
 
-            foreach (IGrouping<INamedTypeSymbol , IFieldSymbol> group in receiver.Fields
-                                                                                 .GroupBy<IFieldSymbol , INamedTypeSymbol>(
-                                                                                          f => f.ContainingType ,
-                                                                                          SymbolEqualityComparer.Default))
+            foreach (var group in receiver.Fields
+                                          .GroupBy<IFieldSymbol , INamedTypeSymbol>(
+                                                   f => f.ContainingType ,
+                                                   SymbolEqualityComparer.Default))
             {
-                var classSource = ProcessClass(group.Key , group , attributeSymbol);
-                context.AddSource($"{group.Key.Name}_Components_g.cs" , SourceText.From(classSource , Encoding.UTF8));
+                var classSymbol           = group.Key;
+                var generatedClassContent = GenerateClass(classSymbol , group , attributeSymbol);
+                var sourceText            = SourceText.From(generatedClassContent , Encoding.UTF8);
+                context.AddSource($"{classSymbol.Name}_Components_g.cs" , sourceText);
             }
         }
 
@@ -82,46 +82,49 @@ internal class GetComponentAttribute : Attribute
             source.Append($"{new string(' ' , indentLevel * 4)}");
         }
 
-        private string ProcessClass(ISymbol classSymbol , IEnumerable<IFieldSymbol> fields , ISymbol attributeSymbol)
+        private string GenerateClass(ISymbol classSymbol , IEnumerable<IFieldSymbol> fields , ISymbol attributeSymbol)
         {
-            var source = new StringBuilder($@"
+            var nameSpaceIsGlobal = classSymbol != null && classSymbol.ContainingNamespace.IsGlobalNamespace;
+            var nameSpaceStr      = nameSpaceIsGlobal ? string.Empty : $"{classSymbol.ContainingNamespace.ToDisplayString()}";
+            var indentLevel       = nameSpaceStr == string.Empty ? 0 : 1;
+            var source            = new StringBuilder();
+            AppendIndent(source , indentLevel);
+            source.AppendLine($"public partial class {classSymbol.Name}");
+            AppendIndent(source , indentLevel);
+            source.AppendLine("{");
+            AppendIndent(source , 1 + indentLevel);
+            source.AppendLine("private void InitializeComponents()");
+            AppendIndent(source , 1 + indentLevel);
+            source.AppendLine("{");
+
+            foreach (var fieldSymbol in fields)
+            {
+                ProcessField(classSymbol.Name , source , fieldSymbol , attributeSymbol , indentLevel);
+            }
+
+            AppendIndent(source , 1 + indentLevel);
+            source.AppendLine("}");
+            AppendIndent(source , indentLevel);
+            source.Append("}");
+            var generateClassContent = source.ToString();
+            const string usingContent = @"
 using System.Linq;
 using UnityEngine.Assertions;
 using UnityEngine;
 using rStarUtility;
-
-public partial class {classSymbol.Name} 
-{{
-    private void InitializeComponents()
-    {{
-");
-
-            foreach (var fieldSymbol in fields)
+";
+            var nameSpaceContentBuilder = new StringBuilder();
+            if (nameSpaceIsGlobal == false)
             {
-                ProcessField(classSymbol.Name , source , fieldSymbol , attributeSymbol);
+                nameSpaceContentBuilder.Append($@"
+namespace {nameSpaceStr}
+{{
+{generateClassContent}
+}}");
             }
+            else nameSpaceContentBuilder.Append(generateClassContent);
 
-            AppendIndent(source);
-            source.AppendLine("}");
-            source.AppendLine("}");
-            return source.ToString();
-        }
-
-        private void ProcessField(string classSymbolName , StringBuilder source , IFieldSymbol fieldSymbol , ISymbol attributeSymbol)
-        {
-            var fieldName = fieldSymbol.Name;
-            var fieldType = fieldSymbol.Type;
-
-            var attributeData = fieldSymbol.GetAttributes()
-                                           .Single(ad => ad.AttributeClass.Equals(attributeSymbol ,
-                                                                                  SymbolEqualityComparer.Default));
-
-            var getComponent = ProcessGetComponent(attributeData , fieldName , fieldType);
-            var assertion    = ProcessAssertion(classSymbolName , fieldName);
-            AppendIndent(source , 2);
-            source.AppendLine(getComponent);
-            AppendIndent(source , 2);
-            source.AppendLine(assertion);
+            return usingContent + nameSpaceContentBuilder;
         }
 
         private string ProcessAssertion(string classSymbolName , string fieldName)
@@ -133,6 +136,24 @@ public partial class {classSymbol.Name}
             var          message           = "$" + $"\"{fieldMessage} is null in {classMessage} from {gameObjectMessage}\"";
             source.Append($"Assert.IsNotNull({fieldName} , {message});");
             return source.ToString();
+        }
+
+        private void ProcessField(
+                string classSymbolName , StringBuilder source , IFieldSymbol fieldSymbol , ISymbol attributeSymbol , int indentLevel)
+        {
+            var fieldName = fieldSymbol.Name;
+            var fieldType = fieldSymbol.Type;
+
+            var attributeData = fieldSymbol.GetAttributes()
+                                           .Single(ad => ad.AttributeClass.Equals(attributeSymbol ,
+                                                                                  SymbolEqualityComparer.Default));
+
+            var getComponent = ProcessGetComponent(attributeData , fieldName , fieldType);
+            var assertion    = ProcessAssertion(classSymbolName , fieldName);
+            AppendIndent(source , 2 + indentLevel);
+            source.AppendLine(getComponent);
+            AppendIndent(source , 2 + indentLevel);
+            source.AppendLine(assertion);
         }
 
         private string ProcessGetComponent(AttributeData attributeData , string fieldName , ITypeSymbol fieldType)

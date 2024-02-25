@@ -1,49 +1,52 @@
 using AutoProperty;
 using UnityEngine;
 
-[Singleton]
-public partial class NewBehaviourScript : MonoBehaviour
+// [Singleton]
+namespace MyNamespace
 {
-    [AutoProp(AXS.PublicGetPrivateSet) , SerializeField]
-    private float _hogehoge;
-
-    // [Required]
-    [AutoProp]
-    [SerializeField]
-    [GetComponent(GetComponentAttribute.TargetType.ChildExcludeSelf )]
-    private BoxCollider2D boxCollider2D;
-
-    [AutoProp , SerializeField]
-    [GetComponent(GetComponentAttribute.TargetType.Child)]
-    private Rigidbody2D rigidbody2D;
-
-    private int _intValue;
-
-    [SerializeField]
-    // [GetComponent(GetComponentAttribute.TargetType.Child)]
-    private Rigidbody rb;
-
-    public Rigidbody RB
+    public partial class NewBehaviourScript : MonoBehaviour
     {
-        get
+        [AutoProp(AXS.PublicGetPrivateSet) , SerializeField]
+        private float _hogehoge;
+
+        // [Required]
+        [AutoProp]
+        [SerializeField]
+        [GetComponent(GetComponentAttribute.TargetType.ChildExcludeSelf)]
+        private BoxCollider2D boxCollider2D;
+
+        [AutoProp , SerializeField]
+        [GetComponent(GetComponentAttribute.TargetType.Child)]
+        private Rigidbody2D rigidbody2D;
+
+        private int _intValue;
+
+        [SerializeField]
+        // [GetComponent(GetComponentAttribute.TargetType.Child)]
+        private Rigidbody rb;
+
+        public Rigidbody RB
         {
-            if (rb == null) rb = GetComponent<Rigidbody>();
-            return rb;
+            get
+            {
+                if (rb == null) rb = GetComponent<Rigidbody>();
+                return rb;
+            }
         }
-    }
 
-    void Start()
-    {
-        rb = GetComponent<Rigidbody>();
-        // var children = this.GetComponentInChildren<BoxCollider2D>(Self.Exclude );
-        // Debug.Log($"{children}");
-        // Hogehoge
-        InitializeComponents();
-        // Assert.IsNotNull(RB , $"RB is null in {gameObject}");
-    }
+        void Start()
+        {
+            rb = GetComponent<Rigidbody>();
+            // var children = this.GetComponentInChildren<BoxCollider2D>(Self.Exclude );
+            // Debug.Log($"{children}");
+            // Hogehoge
+            InitializeComponents();
+            // Assert.IsNotNull(RB , $"RB is null in {gameObject}");
+        }
 
-    public void Test()
-    {
-        Debug.Log($"Test");
+        public void Test()
+        {
+            Debug.Log($"Test");
+        }
     }
 }

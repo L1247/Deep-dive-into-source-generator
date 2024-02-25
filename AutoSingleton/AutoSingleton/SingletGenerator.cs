@@ -35,21 +35,19 @@ internal class SingletonAttribute : Attribute
 
 #region Public Methods
 
-    StringBuilder GenerateClass(string className)
+    string GenerateClass(string className , int indentLevel)
     {
         var source = new StringBuilder();
-
-        source.AppendLine(@"
-using System;
-
-public partial class "
-                    + className);
-
+        AppendIndent(source , indentLevel);
+        source.Append(@"public partial class " + className);
         source.AppendLine(@"{");
-        AppendIndent(source);
-        source.AppendLine($"public static {className} Instance {{ get; private set; }}");
+        AppendIndent(source , 1 + indentLevel);
+        source.AppendLine($"private static {className} instance;");
+        AppendIndent(source , 1 + indentLevel);
+        source.AppendLine($"public static {className} Instance => instance ??= new {className}();");
+        AppendIndent(source , indentLevel);
         source.Append(@"}");
-        return source;
+        return source.ToString();
     }
 
     private static void AppendIndent(StringBuilder source , int indentLevel = 1)
@@ -71,13 +69,75 @@ public partial class "
             foreach (var singleTypeDeclaration in singleTypeDeclarations)
             {
                 var className = singleTypeDeclaration.Identifier.ToString();
+                var nameSpace = GetNamespace(singleTypeDeclaration);
 
-                var generatedClass = GenerateClass(className);
+                int indentLevel               = nameSpace == string.Empty ? 0 : 1;
+                var generatedClass            = GenerateClass(className , indentLevel);
+                var generateNameSpaceAndClass = GenerateNameSpace(generatedClass , nameSpace);
 
-                context.AddSource($"{className}_Singleton_g" , SourceText.From(generatedClass.ToString() , Encoding.UTF8));
+                var sourceText = SourceText.From(generateNameSpaceAndClass , Encoding.UTF8);
+                context.AddSource($"{className}_Singleton_g" , sourceText);
             }
         }
 
     #endregion
+    }
+
+    // determine the namespace the class/enum/struct is declared in, if any
+    // https://andrewlock.net/creating-a-source-generator-part-5-finding-a-type-declarations-namespace-and-type-hierarchy/#finding-the-namespace-for-a-class-syntax
+    static string GetNamespace(SyntaxNode syntax)
+    {
+        // If we don't have a namespace at all we'll return an empty string
+        // This accounts for the "default namespace" case
+        var nameSpace = string.Empty;
+
+        // Get the containing syntax node for the type declaration
+        // (could be a nested type, for example)
+        var potentialNamespaceParent = syntax.Parent;
+
+        // Keep moving "out" of nested classes etc until we get to a namespace
+        // or until we run out of parents
+        while (potentialNamespaceParent != null
+            && potentialNamespaceParent is not NamespaceDeclarationSyntax)
+        {
+            potentialNamespaceParent = potentialNamespaceParent.Parent;
+        }
+
+        // Build up the final namespace by looping until we no longer have a namespace declaration
+        if (potentialNamespaceParent is NamespaceDeclarationSyntax namespaceParent)
+        {
+            // We have a namespace. Use that as the type
+            nameSpace = namespaceParent.Name.ToString();
+
+            // Keep moving "out" of the namespace declarations until we 
+            // run out of nested namespace declarations
+            while (true)
+            {
+                if (namespaceParent.Parent is not NamespaceDeclarationSyntax parent)
+                {
+                    break;
+                }
+
+                // Add the outer namespace as a prefix to the final namespace
+                nameSpace       = $"{namespaceParent.Name}.{nameSpace}";
+                namespaceParent = parent;
+            }
+        }
+
+        // return the final namespace
+        return nameSpace;
+    }
+
+    private string GenerateNameSpace(string classContent , string nameSpace)
+    {
+        if (nameSpace == string.Empty) return classContent;
+        var source = new StringBuilder();
+        source.AppendLine($@"
+namespace {nameSpace}
+{{
+{classContent}
+}}");
+
+        return source.ToString();
     }
 }

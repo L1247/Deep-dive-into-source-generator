@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AutoSingleton")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+595a7b55f26e0b17451d0f3f99ee627e0745a6b7")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+84b92ba12aae5aea7d2dcf69ec447a921b42f517")]
 [assembly: System.Reflection.AssemblyProductAttribute("AutoSingleton")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AutoSingleton")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

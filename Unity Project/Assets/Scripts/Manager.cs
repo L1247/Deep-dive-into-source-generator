@@ -1,13 +1,14 @@
-using System;
+using MyNamespace;
 using UnityEngine;
 
-namespace DefaultNamespace
+namespace DefulatNameSpace
 {
-    public class Manager: MonoBehaviour
+    public class Manager : MonoBehaviour
     {
         private void Awake()
         {
-            NewBehaviourScript.Instance.Test();
+            GameScore.Instance.AddScore(10);
+            // NewBehaviourScript.Instance.Test();
         }
     }
 }
