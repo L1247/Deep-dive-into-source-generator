@@ -12,10 +12,10 @@ namespace UnitySourceGenerator
     {
     #region Private Variables
 
-        private const string _attributeText = @"
+        private const string attributeText = @"
 using System;
 
-[AttributeUsage(AttributeTargets.Field, Inherited = true, AllowMultiple = false)]
+[AttributeUsage(AttributeTargets.Field , Inherited = true , AllowMultiple = false)]
 internal class GetComponentAttribute : Attribute
 {
     public enum TargetType
@@ -69,7 +69,7 @@ internal class GetComponentAttribute : Attribute
         public void Initialize(GeneratorInitializationContext context)
         {
             context.RegisterForPostInitialization
-                    (i => i.AddSource("GetComponentAttribute_g.cs" , _attributeText));
+                    (i => i.AddSource("GetComponentAttribute_g.cs" , attributeText));
             context.RegisterForSyntaxNotifications(() => new SyntaxReceiver());
         }
 

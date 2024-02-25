@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AutoGetComponent")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+adb3b43a7d14099c59f3138b28452fa53cf298a6")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4f3ce5de8d0a4e9ffd073f4db1baf9a2e46803d6")]
 [assembly: System.Reflection.AssemblyProductAttribute("AutoGetComponent")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AutoGetComponent")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

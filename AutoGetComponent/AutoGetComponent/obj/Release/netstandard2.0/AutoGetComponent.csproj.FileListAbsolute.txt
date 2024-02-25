@@ -8,3 +8,4 @@ D:\Git Project\YT\Deep dive into source generator\AutoGetComponent\AutoGetCompon
 D:\Git Project\YT\Deep dive into source generator\AutoGetComponent\AutoGetComponent\obj\Release\netstandard2.0\AutoGetComponent.csproj.CoreCompileInputs.cache
 D:\Git Project\YT\Deep dive into source generator\AutoGetComponent\AutoGetComponent\obj\Release\netstandard2.0\AutoGetComponent.dll
 D:\Git Project\YT\Deep dive into source generator\AutoGetComponent\AutoGetComponent\obj\Release\netstandard2.0\AutoGetComponent.pdb
+D:\Git Project\YT\Deep dive into source generator\AutoGetComponent\AutoGetComponent\obj\Release\netstandard2.0\AutoGetComponent.sourcelink.json
